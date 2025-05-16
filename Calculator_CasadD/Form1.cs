@@ -20,7 +20,11 @@ namespace Calculator_CasadD
         string formula = "";
         float num1 = 0, i = 1, esp = 0;//i conta esponente
         List<float> num= new List<float>();
-
+        /// <summary>
+        /// code for all numerical buttons of the calculator
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void number_Click(object sender, EventArgs e)
         {
             Button b= sender as Button;
