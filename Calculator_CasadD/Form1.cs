@@ -17,7 +17,7 @@ namespace Calculator_CasadD
         {
             InitializeComponent();
         }
-        string formula = "";
+        string formula = "", numStr=" ";
         float num1 = 0, i = 1, esp = 0;
         List<float> num= new List<float>();
         /// <summary>
@@ -95,7 +95,17 @@ namespace Calculator_CasadD
 
         private void BtnAdd_Click(object sender, EventArgs e)
         {
-            formula = formula + num1.ToString()+"+";
+            if (numStr==" ")
+            {
+                numStr = num1.ToString();
+                formula = formula +numStr + "+";
+                numStr = " ";
+            }
+            else
+            {
+                formula = formula + numStr + "+";
+            }
+            
             num1 = 0;
             esp = 0;
             i = 1;
@@ -104,7 +114,17 @@ namespace Calculator_CasadD
 
         private void BtnSub_Click(object sender, EventArgs e)
         {
-            formula = formula + num1.ToString() + "-";
+            if (numStr == " ")
+            {
+                numStr = num1.ToString();
+                formula = formula + numStr + "-";
+                numStr = " ";
+            }
+            else
+            {
+                formula = formula + numStr + "-";
+            }
+            
             num1 = 0;
             esp = 0;
             i = 1;
@@ -113,7 +133,16 @@ namespace Calculator_CasadD
 
         private void BtnMul_Click(object sender, EventArgs e)
         {
-            formula = formula + num1.ToString() + "*";
+            if (numStr == " ")
+            {
+                numStr = num1.ToString();
+                formula = formula + numStr + "*";
+                numStr = " ";
+            }
+            else
+            {
+                formula = formula + numStr + "*";
+            }
             num1 = 0;
             esp = 0;
             i = 1;
@@ -122,9 +151,17 @@ namespace Calculator_CasadD
 
         private void BtnDiv_Click(object sender, EventArgs e)
         {
-            formula = formula + num1.ToString() + "/";
+            if (numStr == " ")
+            {
+                numStr = num1.ToString();
+                formula = formula + numStr + "/";
+                numStr = " ";
+            }
+            else
+            {
+                formula = formula + numStr + "/";
+            }
             num1 = 0;
-            
             esp = 0;
             i = 1;
             LabelDisplay.Text = "";
@@ -134,6 +171,7 @@ namespace Calculator_CasadD
         {
             
             formula = "";
+            numStr = " ";
         }
 
         private void BtnFloat_Click(object sender, EventArgs e)
@@ -143,14 +181,25 @@ namespace Calculator_CasadD
 
         private void BtnEnter_Click(object sender, EventArgs e)
         {
-            formula = formula + num1.ToString();
             
+            if (numStr == " ")
+            {
+                numStr = num1.ToString();
+                formula = formula + numStr;
+                numStr = " ";
+            }
+            else
+            {
+                formula = formula + numStr;
+            }
+            num1=0;
+            numStr = "";
             esp = 0;
             i = 1;
             
             var expression = new Expression(formula);
             var result = expression.Evaluate();
-            
+            formula=result.ToString();
            
             LabelDisplay.Text=result.ToString();
 
