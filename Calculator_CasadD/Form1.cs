@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
+using NCalc;
 
 namespace Calculator_CasadD
 {
@@ -18,7 +18,7 @@ namespace Calculator_CasadD
             InitializeComponent();
         }
         string formula = "";
-        float num1 = 0, i = 1, esp = 0;//i conta esponente
+        float num1 = 0, i = 1, esp = 0;
         List<float> num= new List<float>();
         /// <summary>
         /// code for all numerical buttons of the calculator
@@ -81,7 +81,7 @@ namespace Calculator_CasadD
                 num1 = (num1 - num1 % 10) / 10;
                 
             }
-            else//parte con la virgola
+            else//float part
             {
                 num1 = (float)(num1 * Math.Pow(10, esp) - num1 * Math.Pow(10, esp) % 10) /(float) (Math.Pow(10,esp));
                 esp--;
@@ -95,9 +95,8 @@ namespace Calculator_CasadD
 
         private void BtnAdd_Click(object sender, EventArgs e)
         {
-            num.Add(num1);
+            formula = formula + num1.ToString()+"+";
             num1 = 0;
-            num.Add(1);
             esp = 0;
             i = 1;
             LabelDisplay.Text = "";
@@ -105,9 +104,8 @@ namespace Calculator_CasadD
 
         private void BtnSub_Click(object sender, EventArgs e)
         {
-            num.Add(num1);
+            formula = formula + num1.ToString() + "-";
             num1 = 0;
-            num.Add(2);
             esp = 0;
             i = 1;
             LabelDisplay.Text = "";
@@ -115,9 +113,8 @@ namespace Calculator_CasadD
 
         private void BtnMul_Click(object sender, EventArgs e)
         {
-            num.Add(num1);
+            formula = formula + num1.ToString() + "*";
             num1 = 0;
-            num.Add(3);
             esp = 0;
             i = 1;
             LabelDisplay.Text = "";
@@ -125,9 +122,9 @@ namespace Calculator_CasadD
 
         private void BtnDiv_Click(object sender, EventArgs e)
         {
-            num.Add(num1);
+            formula = formula + num1.ToString() + "/";
             num1 = 0;
-            num.Add(4);
+            
             esp = 0;
             i = 1;
             LabelDisplay.Text = "";
@@ -135,7 +132,8 @@ namespace Calculator_CasadD
 
         private void BtnClear_Click(object sender, EventArgs e)
         {
-            num = new List<float>();
+            
+            formula = "";
         }
 
         private void BtnFloat_Click(object sender, EventArgs e)
@@ -145,41 +143,17 @@ namespace Calculator_CasadD
 
         private void BtnEnter_Click(object sender, EventArgs e)
         {
-            num.Add(num1);
-            num.Add(0);
+            formula = formula + num1.ToString();
+            
             esp = 0;
             i = 1;
-            float nFinale = num[0];
-            //per i dispari
-            //0=enter
-            //1=add
-            //2=sub
-            //3=mul
-            //4=div
-            for (int j = 1; j < num.Count-1; j+=2)
-            {
-                switch (num[j])
-                {
-                    case 0:
-                        //nFinale = num[j];
-                        break;
-                    case 1:
-                        nFinale = nFinale  + num[j + 1];
-                        break;
-                    case 2:
-                        nFinale = nFinale - num[j + 1];
-                        break;
-                    case 3:
-                        nFinale = nFinale * num[j + 1];
-                        break;
-                    case 4:
-                        nFinale = nFinale / num[j + 1];
-                        break;
-                    default:LabelDisplay.Text = "ERRor";
-                        break;
-                }
-            }
-            LabelDisplay.Text = nFinale.ToString();
+            
+            var expression = new Expression(formula);
+            var result = expression.Evaluate();
+            
+           
+            LabelDisplay.Text=result.ToString();
+
         }
     }
 }
